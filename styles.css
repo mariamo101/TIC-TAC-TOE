@@ -7,7 +7,7 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: content;
+    justify-content: center;
   }
   html {
       box-sizing: border-box;
@@ -16,13 +16,134 @@ body {
      box-sizing: inherit;
   }
     
-  body, h1, p{
+  body, h1,h2, p{
       margin: 0;
       padding: 0;
   }
  #game-menu{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    
+  display: flex;
+  width: 23.4375rem;
+  height: 41.6875rem;
+  padding: 7.4375rem 1.5rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly; 
+ }
+ #start-game{
+  display: none;
+  color: #F2B137;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.09375rem;
+ }
+ #icons{
+  display: flex;
+  justify-content: space-between;
+  width: 4.49813rem;
+  height: 2rem;
+  margin-bottom: 2rem;
+ }
+ #icons img{
+  height: 2rem;
+ }
+ .bord{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20.4375rem;
+  height: 12.8125rem;
+  border-radius: 0.9375rem;
+  background-color:  #1F3641;
+  box-shadow: 0px -8px 0px 0px #10212A inset;
+ }
+ .player-mark{
+  color: #A8BFC9;
+  text-align: center;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.0625rem;
+  padding: 1.5rem 0 1.5rem 0;
+ }
+ .button-box{
+  display: flex;
+  width: 17.4375rem;
+  height: 4.5rem;
+  border-radius: 0.625rem;
+  background: #1A2A33;
+  padding: 0.56rem;
+ }
+ .x-button,.o-button{
+  width: 50%;
+  height: 100%;
+  border-radius: 0.625rem;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+ svg{
+  color: #A8BFC9;
+  transform: scale(0.7);
+ }
+ .active{
+  background: #A8BFC9;
+ }
+ .active svg{
+  color:#1A2A33;
+ }
+ .reference{
+  color: #A8BFC9;
+  text-align: center;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.05469rem;
+  opacity: 0.5;
+  padding: 1.06rem 0 1.87rem 0;
+ }
+ .button-player{
+  display: flex;
+  flex-direction: column;
+ }
+ .yellow-btn{
+  width: 20.4375rem;
+  height: 3.5rem;
+  border-radius: 0.9375rem;
+  background: #F2B137;
+  box-shadow: 0px -8px 0px 0px #CC8B13 inset;
+  border: none;
+  margin: 2rem auto 1rem auto;
+ }
+ .vs-cpu{
+  color:#1A2A33;
+  text-align: center;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.0625rem;
+ }
+ .blue-btn{
+  border:none;
+  width: 20.4375rem;
+  height: 3.5rem;
+  border-radius: 0.9375rem;
+  background:#31C3BD;
+  box-shadow: 0px -8px 0px 0px #118C87 inset;
+ }
+ .vs-player{
+  color: #1A2A33;
+  text-align: center;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.0625rem;
  }
