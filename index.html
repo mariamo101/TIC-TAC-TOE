@@ -8,7 +8,6 @@
   <title>Frontend Mentor | Tic Tac Toe</title>
 </head>
 <body>
-  <!-- New game menu start -->
   <section id="game-menu">
     <header id="icons">
       <img class="x" src="./assets/icon-x.svg"/>
@@ -40,18 +39,55 @@
       </button>
     </footer>
   </section>
-  <section id="start-game">Game Start</section>
-  <!-- New game menu end -->
+  <section id="start-game">
+   <!-- Game board start -->
+     <div id="game-board">
+     <div class="board-header">
+      <section id="icons">
+        <img class="x" src="./assets/icon-x.svg"/>
+        <img class="o" src="./assets/icon-o.svg"/>
+      </section>
+      <section id="turn-box">
+        <img class="x-turn" src="./assets/icon-x-small .svg"/>
+        <p class="turn">TURN</p>
+      </section>
+      <button class="restart">
+        <img class="icon-arrow" src="./assets/icon-arrow.svg"/>
+      </button>
+     </div>
+     <div class="board-main">
+      <div class="buttons">
+        <div class="play-btn"></div>
+        <div class="play-btn"></div>
+        <div class="play-btn"></div>
+        <div class="play-btn"></div>
+        <div class="play-btn"></div>
+        <div class="play-btn"></div>
+        <div class="play-btn"></div>
+        <div class="play-btn"></div>
+        <div class="play-btn"></div>
+      </div>
+     </div>
+     <div class="board-footer">
+     <div class="scores">
+       <div class="score-boxs">
+        <h3> x (you)</h3>
+        <span>0</span>
+       </div>     
+       <div class="score-boxs">
+        <h3>ties</h3> 
+        <span>0</span>
+       </div>     
+       <div class="score-boxs">
+        <h3> (cpu)</h3>
+        <span>0</span>
+       </div>     
+     </div>
 
-
-
-
-  <!-- Game board start -->
-
+     </div>
+    </div>
   <!-- x/o icon --> 
   <!-- x/o icon --> 
- 
-
   <!-- Game board end -->
 <script src="./index.js"></script>
 </body>

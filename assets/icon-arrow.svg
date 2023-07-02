@@ -1,0 +1,23 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 13">
+<g id="Group 3 Copy">
+<g id="Rectangle" filter="url(#filter0_i_0_729)">
+<rect width="40" height="40" rx="5" fill="#A8BFC9"/>
+</g>
+</g>
+<g id="Redo">
+<path id="Path" d="M27.3262 12.3076H25.8799C25.6778 12.3074 25.5137 12.4712 25.5135 12.6735C25.5135 12.6794 25.5136 12.6854 25.5139 12.6913L25.6359 15.2176C24.2 13.5244 22.0921 12.5494 19.8729 12.5518C15.704 12.5518 12.3046 15.9563 12.3076 20.1278C12.3107 24.3061 15.6967 27.6922 19.8729 27.6922C21.7462 27.6949 23.5534 26.9994 24.9422 25.7414C25.0928 25.6064 25.1057 25.3749 24.9708 25.2241C24.9663 25.2191 24.9616 25.2141 24.9568 25.2093L23.9197 24.1715C23.7835 24.0352 23.565 24.0279 23.42 24.1547C21.1938 26.1146 17.8014 25.8975 15.8427 23.6699C13.8841 21.4422 14.101 18.0475 16.3272 16.0876C18.5534 14.1277 21.9458 14.3448 23.9045 16.5724C24.058 16.747 24.2 16.9314 24.3297 17.1244L21.2325 16.9758C21.0306 16.9662 20.8591 17.1222 20.8495 17.3243C20.8492 17.3302 20.849 17.3362 20.8491 17.3421V18.7893C20.8491 18.9916 21.0129 19.1556 21.2151 19.1556H27.3262C27.5284 19.1556 27.6923 18.9916 27.6923 18.7893V12.6739C27.6922 12.4716 27.5283 12.3076 27.3262 12.3076Z" fill="#1F3641"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_i_0_729" x="0" y="0" width="40" height="40" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="-4"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.418727 0 0 0 0 0.538482 0 0 0 0 0.590549 0 0 0 1 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_0_729"/>
+</filter>
+</defs>
+</svg>

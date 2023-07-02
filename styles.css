@@ -16,27 +16,17 @@ body {
      box-sizing: inherit;
   }
     
-  body, h1,h2, p{
+  body, h1,h2,h3, p{
       margin: 0;
       padding: 0;
   }
- #game-menu{
+ #game-menu,#game-board{
   display: flex;
   width: 23.4375rem;
   height: 41.6875rem;
-  padding: 7.4375rem 1.5rem;
+  padding:  3rem 1.4rem 7.4375rem 1.4rem;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly; 
- }
- #start-game{
-  display: none;
-  color: #F2B137;
-  font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: 0.09375rem;
  }
  #icons{
   display: flex;
@@ -147,3 +137,95 @@ body {
   line-height: normal;
   letter-spacing: 0.0625rem;
  }
+ #start-game{
+   display: none;
+ }
+ .board-header,.scores{
+  width: 328px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+ }
+ #turn-box{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5625rem;
+  width: 6rem;
+  height: 2.5rem;
+  border-radius: 0.3125rem;
+  background:#1F3641;
+  box-shadow: 0px -4px 0px 0px #10212A inset;
+ }
+ .x-turn{
+  width: 1rem;
+  height: 1rem;
+ }
+ .turn{
+  color: #A8BFC9;
+  text-align: center;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.05469rem;
+ }
+ .restart,.icon-arrow{
+  border-radius: 5px;
+  padding: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+ }
+ .buttons{
+   margin-top: 4rem;
+   width: 328px;
+   display: flex;
+   flex-wrap: wrap;
+   gap:1.25rem
+ }
+ .play-btn{
+  width: 6rem;
+  height: 6rem;
+  border-radius: 0.625rem;
+  background:  #1F3641;
+  box-shadow: 0px -8px 0px 0px #10212A inset;
+ }
+ .scores{
+  height: 4rem;
+  margin-top: 1.25rem;
+ }
+ .score-boxs{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 6rem;
+  height: 4rem;
+  border-radius: 0.625rem;
+  background: #31C3BD;
+ }
+ .score-boxs:nth-child(2){
+  background: #A8BFC9;
+ }
+ .score-boxs:nth-child(3){
+  background: #F2B137;
+ }
+.score-boxs h3{
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.05469rem;
+  color:#1A2A33;
+  text-transform: uppercase;
+}
+.score-boxs span{
+  color: #1A2A33;
+  text-align: center;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.07813rem;
+}
