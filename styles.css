@@ -188,8 +188,11 @@ body {
   width: 6rem;
   height: 6rem;
   border-radius: 0.625rem;
-  background:  #1F3641;
+  background-color:  #1F3641;
   box-shadow: 0px -8px 0px 0px #10212A inset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
  }
  .scores{
   height: 4rem;
@@ -228,4 +231,35 @@ body {
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.07813rem;
+}
+.x-button:hover,.o-button:hover,.yellow-btn:hover,.blue-btn:hover,.xHover:hover,.oHover:hover,.restart:hover,.icon-arrow:hover{
+  cursor: pointer;
+}
+.x-button.active:hover,.o-button.active:hover{
+  background-color:#A8BFC9;
+}
+.x-button:hover,.o-button:hover{
+  background-color: #1F3641;
+}
+.yellow-btn:hover{
+  background-color: #FFC860;
+}
+.blue-btn:hover{
+  background-color: #65E9E4;
+}
+.xHover:hover{
+  background-image: url(./assets/icon-x-outline.svg);
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  background-position: center;
+}
+.oHover:hover{
+  background-image: url(./assets/icon-o-outline.svg);
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  background-position: center;
+}
+.players-icon{
+  width: 40px;
+  height: 40px;
 }
