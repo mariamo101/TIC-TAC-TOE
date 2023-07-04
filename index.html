@@ -8,6 +8,21 @@
   <title>Frontend Mentor | Tic Tac Toe</title>
 </head>
 <body>
+
+  <div id="modal">
+    <div class="modal-box">
+      <p class="result-info-text"> OH NO, YOU LOST…</p>
+      <div class="icon-result">
+        <img src="./assets/icon-x.svg" alt=""/>
+        <p class="result-text"> TAKES THE ROUND</p>
+      </div>
+      <div class="result-buttons">
+      <button class="quit-btn">quit</button>
+      <button class="next-round-btn">next round</button>
+      </div>
+    </div>
+  </div>
+  
   <section id="game-menu">
     <header id="icons">
       <img class="x" src="./assets/icon-x.svg"/>
@@ -40,7 +55,7 @@
     </footer>
   </section>
   <section id="start-game">
-   <!-- Game board start -->
+  
      <div id="game-board">
      <div class="board-header">
       <section id="icons">
@@ -48,7 +63,7 @@
         <img class="o" src="./assets/icon-o.svg"/>
       </section>
       <section id="turn-box">
-        <img class="x-turn" src="./assets/icon-x-small .svg"/>
+        <img  src="./assets/icon-x-small .svg"/>
         <p class="turn">TURN</p>
       </section>
       <button class="restart">
@@ -86,9 +101,9 @@
 
      </div>
     </div>
-  <!-- x/o icon --> 
-  <!-- x/o icon --> 
-  <!-- Game board end -->
+
+</section>
 <script src="./index.js"></script>
+ 
 </body>
 </html>

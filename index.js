@@ -1,3 +1,4 @@
+const gameBoard = document.querySelector("#game-board");
 const playButtons = document.querySelectorAll(".play-btn");
 const choiceXorO = document.querySelectorAll(".x-button,.o-button");
 const gameMenu = document.querySelector("#game-menu");
@@ -6,6 +7,11 @@ const xScoreText = document.querySelector("#x-score-text");
 const oScoreText = document.querySelector("#o-score-text");
 const xScore = document.querySelector("#x-score");
 const oScore = document.querySelector("#o-score");
+const turnInfoImage = document.querySelector("#turn-box img");
+const modal = document.querySelector("#modal");
+const modalInfoText = document.querySelector(".result-info-text");
+const modalIcon = document.querySelector(".icon-result img");
+const modalResultText = document.querySelector(".result-text");
 
 
 
@@ -38,6 +44,31 @@ const activateChoice = (icon) => {
     }
 };
 
+const checkXwin = () => {
+  return winnerCombinations.find(combination => 
+   combination.every(button => xArray.includes(button))
+  );
+
+};
+const onWinX = () => {
+  modal.style.display = "inline";
+  modalIcon.src ="./assets/icon-x.svg";
+  modalResultText.style.color = "#31C3BD";
+  gameBoard.style.backgroundColor = " #000";
+  gameBoard.style.opacity = "0.5";
+  
+  if(player1 === "x"){
+    modalInfoText.textContent = "you won!";
+  }else{
+    modalInfoText.textContent = modalResultText.textContent;
+  }
+
+};
+
+
+
+
+
 const onHoverEffects = () => {
     for (let index = 0; index < freeBtnBox.length; index++) {
         const playButtonsIndex =  freeBtnBox[index];
@@ -66,11 +97,20 @@ const clickFunction = () => {
             if( turn === "x"){
                 icon.src = "./assets/icon-x.svg";
                 event.target.append(icon);
+                xArray.push(index);
+                const win =  checkXwin();
+               if(win){
+                onWinX();
+                 return;
+               }
                 turn = "o";
+                turnInfoImage.src="./assets/icon-o-small.svg";
             }else{
                 icon.src = "./assets/icon-o.svg";
                 event.target.append(icon);
+                oArray.push(index);
                 turn = "x";
+                turnInfoImage.src="./assets/icon-x-gray.svg";
             }
             onHoverEffects();
             event.target.onclick = null;
@@ -83,7 +123,7 @@ const startGame = (Mode) => {
      mode = Mode;
      onHoverEffects();
      clickFunction();
-     if(Mode === "player") {
+           if(Mode === "player") {
             if (player1 === "x") {
               xScoreText.textContent = "X (P1)";
               oScoreText.textContent = "O (P2)";
