@@ -21,6 +21,10 @@ let turn = "x";
 let freeBtnBox = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 let xArray = [];
 let oArray = [];
+let Xscore = 0;
+let tieScore = 0;
+let Oscore = 0;
+
 let winnerCombinations = [
     [0, 1 ,2],
     [3, 4, 5],
@@ -48,24 +52,39 @@ const checkXwin = () => {
   return winnerCombinations.find(combination => 
    combination.every(button => xArray.includes(button))
   );
-
 };
 const onWinX = () => {
   modal.style.display = "inline";
   modalIcon.src ="./assets/icon-x.svg";
-  modalResultText.style.color = "#31C3BD";
-  gameBoard.style.backgroundColor = " #000";
-  gameBoard.style.opacity = "0.5";
-  
+  modalResultText.style.color ="#31C3BD";
+  Xscore++;
+  xScore.textContent = Xscore;
+
   if(player1 === "x"){
     modalInfoText.textContent = "you won!";
   }else{
     modalInfoText.textContent = modalResultText.textContent;
   }
-
 };
+ 
+const checkOwin = () => {
+  return winnerCombinations.find(combination => 
+   combination.every(button => oArray.includes(button))
+  );
+};
+const onWinO = () => {
+  modal.style.display = "inline";
+  modalIcon.src ="./assets/icon-o.svg";
+  modalResultText.style.color ="#F2B137";
+  Oscore++;
+  oScore.textContent = Oscore;
 
-
+  if(player1 !== "x"){
+    modalInfoText.textContent = "OH NO, YOU LOST…";
+  }else{
+    modalInfoText.textContent = modalInfoText.textContent;
+  }
+};
 
 
 
@@ -99,7 +118,7 @@ const clickFunction = () => {
                 event.target.append(icon);
                 xArray.push(index);
                 const win =  checkXwin();
-               if(win){
+                if(win){
                 onWinX();
                  return;
                }
@@ -109,6 +128,11 @@ const clickFunction = () => {
                 icon.src = "./assets/icon-o.svg";
                 event.target.append(icon);
                 oArray.push(index);
+                const win =  checkOwin();
+                if(win){
+                onWinO();
+                 return;
+                }
                 turn = "x";
                 turnInfoImage.src="./assets/icon-x-gray.svg";
             }
