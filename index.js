@@ -14,7 +14,6 @@ const modalIcon = document.querySelector(".icon-result img");
 const modalResultText = document.querySelector(".result-text");
 
 
-
 let player1 = "x";
 let mode = "cup";
 let turn = "x";
@@ -80,13 +79,30 @@ const onWinO = () => {
   oScore.textContent = Oscore;
 
   if(player1 !== "x"){
-    modalInfoText.textContent = "OH NO, YOU LOST…";
+    modalInfoText.textContent = "you won!";
   }else{
     modalInfoText.textContent = modalInfoText.textContent;
   }
 };
 
-
+const winningStyle = (array) =>{
+  if( turn === "x"){
+    playButtons[array[0]].style.background = "#31C3BD";
+    playButtons[array[1]].style.background = "#31C3BD";
+    playButtons[array[2]].style.background = "#31C3BD";   
+    playButtons[array[0]].firstElementChild.src ="./assets/icon-x-dark-gray.svg";
+    playButtons[array[1]].firstElementChild.src ="./assets/icon-x-dark-gray.svg";
+    playButtons[array[2]].firstElementChild.src ="./assets/icon-x-dark-gray.svg";
+ 
+  }else{
+    playButtons[array[0]].style.background = "#F2B137";
+    playButtons[array[1]].style.background = "#F2B137";
+    playButtons[array[2]].style.background = "#F2B137"; 
+    playButtons[array[0]].firstElementChild.src ="./assets/icon-o-dark-gray.svg";
+    playButtons[array[1]].firstElementChild.src ="./assets/icon-o-dark-gray.svg";
+    playButtons[array[2]].firstElementChild.src ="./assets/icon-o-dark-gray.svg";
+ }
+};
 
 const onHoverEffects = () => {
     for (let index = 0; index < freeBtnBox.length; index++) {
@@ -120,6 +136,7 @@ const clickFunction = () => {
                 const win =  checkXwin();
                 if(win){
                 onWinX();
+                winningStyle(win);
                  return;
                }
                 turn = "o";
@@ -131,6 +148,7 @@ const clickFunction = () => {
                 const win =  checkOwin();
                 if(win){
                 onWinO();
+                winningStyle(win);
                  return;
                 }
                 turn = "x";
@@ -165,3 +183,26 @@ const startGame = (Mode) => {
             }
           }
         };
+        const reset = () => {
+          player1 = "x";
+          mode = "cup";
+          turn = "x";
+          freeBtnBox = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+          xArray = [];
+          oArray = [];
+
+        };
+        const quit = () => {
+          reset();
+
+          Xscore = 0;
+          tieScore = 0;
+          Oscore = 0;
+          gameStart.style.display = "none";
+          gameMenu.style.display = "inline";
+          modal.style.display = "none";
+          xScore.textContent = 0;
+          oScore.textContent = 0;
+          xScoreText.textContent = 0;
+          oScoreText.textContent = 0;
+         };

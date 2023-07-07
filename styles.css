@@ -23,6 +23,7 @@ body {
 
  #game-menu,#game-board{
   display: flex;
+  background-color: #1A2A33;
   width: 23.4375rem;
   height: 41.6875rem;
   padding:  3rem 1.4rem 7.4375rem 1.4rem;
@@ -39,6 +40,7 @@ body {
  #icons img{
   height: 2rem;
  }
+ 
  .bord{
   display: flex;
   flex-direction: column;
