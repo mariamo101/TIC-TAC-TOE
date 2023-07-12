@@ -22,6 +22,24 @@
       </div>
     </div>
   </div>
+  <div id="modal-tie">
+    <div class="modal-box">
+      <p class="result-info-tie">ROUND TIED</p>
+      <div class="result-buttons">
+        <button class="quit-btn" onclick="quit()">quit</button>
+        <button class="next-round-btn" onclick="nextRound()">next round</button>
+      </div>
+    </div>
+  </div>
+  <div id="modal-restart">
+    <div class="modal-box">
+      <p class="result-info-reset"> RESTART GAME?</p>
+      <div class="result-buttons">
+      <button class="quit-btn" onclick="Close()"> NO, CANCEL </button>
+      <button class="next-round-btn" onclick="restartF()"> YES, RESTART </button>
+      </div>
+    </div>
+  </div>
   
   <section id="game-menu">
     <header id="icons">
@@ -66,7 +84,7 @@
         <img  src="./assets/icon-x-small .svg"/>
         <p class="turn">TURN</p>
       </section>
-      <button class="restart">
+      <button class="restart" onclick="openRestartModal()">
         <img class="icon-arrow" src="./assets/icon-arrow.svg"/>
       </button>
      </div>
@@ -91,7 +109,7 @@
        </div>     
        <div class="score-boxs">
         <h3>ties</h3> 
-        <span>0</span>
+        <span id="tie-score">0</span>
        </div>     
        <div class="score-boxs">
         <h3 id="o-score-text">  O (cpu)</h3>

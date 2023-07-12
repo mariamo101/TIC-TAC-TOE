@@ -255,18 +255,20 @@ body {
   background-repeat: no-repeat;
   background-size: 40px 40px;
   background-position: center;
+  background-color: #1F3641;
 }
 .oHover:hover{
   background-image: url(./assets/icon-o-outline.svg);
   background-repeat: no-repeat;
   background-size: 40px 40px;
   background-position: center;
+  background-color: #1F3641;
 }
 .players-icon{
   width: 40px;
   height: 40px;
 }
-#modal{
+#modal,#modal-tie,#modal-restart{
   display: none;
   min-width: 23.4375rem;
   width:100vw;
@@ -299,6 +301,16 @@ body {
   line-height: normal;
   letter-spacing: 0.05469rem;
   margin-bottom: 1rem;
+}
+.result-info-reset,.result-info-tie{
+  color:  #A8BFC9;
+  text-align: center;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.15625rem;
+  padding: 1rem;
 }
 .result-text{
   min-width: 16rem;
