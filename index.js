@@ -38,8 +38,9 @@ let winnerCombinations = [
     [0, 4, 8],
     [2, 4, 6],
 ];
-
-
+let playerSide = '';
+let cpuSide = '';
+ 
 
 const activateChoice = (icon) => {
     if (icon === "x"){
@@ -51,6 +52,10 @@ const activateChoice = (icon) => {
         choiceXorO[0].classList.remove("active");
         player1 = "o";
     }
+    playerSide = icon;
+    cpuSide = icon === 'x' ? 'o' : 'x';
+  alert('You chose ' + playerSide + '. You\'ll play against the computer (' + cpuSide + ').');
+
 };
 const checkXwin = () => {
   return winnerCombinations.find(combination => 
@@ -68,7 +73,7 @@ const onWinX = () => {
     modalInfoText.textContent = "you won!";
   }else{
     modalInfoText.textContent = modalResultText.textContent;
-  }
+  };
 };
 const checkOwin = () => {
   return winnerCombinations.find(combination => 
@@ -86,25 +91,25 @@ const onWinO = () => {
     modalInfoText.textContent = "you won!";
   }else{
     modalInfoText.textContent = modalInfoText.textContent;
-  }
+  };
 };
 const winningStyle = (array) =>{
   if( turn === "x"){
-    playButtons[array[0]].style.background = "#31C3BD";
-    playButtons[array[1]].style.background = "#31C3BD";
-    playButtons[array[2]].style.background = "#31C3BD";   
+    playButtons[array[0]].style.backgroundColor = "#31C3BD";
+    playButtons[array[1]].style.backgroundColor = "#31C3BD";
+    playButtons[array[2]].style.backgroundColor = "#31C3BD";   
     playButtons[array[0]].firstElementChild.src ="./assets/icon-x-dark-gray.svg";
     playButtons[array[1]].firstElementChild.src ="./assets/icon-x-dark-gray.svg";
     playButtons[array[2]].firstElementChild.src ="./assets/icon-x-dark-gray.svg";
  
   }else{
-    playButtons[array[0]].style.background = "#F2B137";
-    playButtons[array[1]].style.background = "#F2B137";
-    playButtons[array[2]].style.background = "#F2B137"; 
+    playButtons[array[0]].style.backgroundColor = "#F2B137";
+    playButtons[array[1]].style.backgroundColor = "#F2B137";
+    playButtons[array[2]].style.backgroundColor = "#F2B137"; 
     playButtons[array[0]].firstElementChild.src ="./assets/icon-o-dark-gray.svg";
     playButtons[array[1]].firstElementChild.src ="./assets/icon-o-dark-gray.svg";
     playButtons[array[2]].firstElementChild.src ="./assets/icon-o-dark-gray.svg";
- }
+ };
 };
 const onHoverEffects = () => {
     for (let index = 0; index < freeBtnBox.length; index++) {
@@ -115,23 +120,19 @@ const onHoverEffects = () => {
         }else{
             playButtons[playButtonsIndex].classList.add("oHover");
             playButtons[playButtonsIndex].classList.remove("xHover");
-        }
-    }
-   
-      
-    
+        };
+    };      
 };
-
 const clickFunction = () => {
     for (let index = 0; index < playButtons.length; index++){
-     /* playButtons[index].style.background = "#1F3641";*/
-      playButtons[index].innerHTML = "";
-    
+     playButtons[index].style.backgroundColor = "#1F3641";
+     playButtons[index].innerHTML = "";
+      
+
         playButtons[index].onclick  = (event) => {
             event.target.classList.remove("xHover");
             event.target.classList.remove("oHover");
             
-      
             const spliceIndex = freeBtnBox.indexOf(index);
             freeBtnBox.splice(spliceIndex, 1);
 
@@ -163,7 +164,6 @@ const clickFunction = () => {
                 onWinO();
                 winningStyle(win);
                  return;
-                 
                 };
                 turn = "x";
                 turnInfoImage.src="./assets/icon-x-gray.svg";
@@ -173,11 +173,11 @@ const clickFunction = () => {
        };
     };
 };
-
 const startGame = (Mode) => {
      gameMenu.style.display = "none";
      gameStart.style.display ="flex"
      mode = Mode;
+     
      onHoverEffects();
      clickFunction();
            if(Mode === "player") {
@@ -189,7 +189,7 @@ const startGame = (Mode) => {
               oScoreText.textContent = "O (P1)";
             };
           } else {
-            if (player1 === "x") {
+            if (player1 === "o") {
               xScoreText.textContent = "X (YOU)";
               oScoreText.textContent = "O (CPU)";
             } else {
@@ -198,7 +198,6 @@ const startGame = (Mode) => {
             };
      };
 };
-
 const reset = () => {
           player1 = "x";
           mode = "cup";
@@ -207,9 +206,7 @@ const reset = () => {
           xArray = [];
           oArray = [];
           modal.style.display = "none";
-          modalTie.style.display = "none";
-          
-        
+          modalTie.style.display = "none";     
 };
 const quit = () => {
           reset();
@@ -220,16 +217,12 @@ const quit = () => {
           gameMenu.style.display = "inline";
           xScore.textContent = 0;
           oScore.textContent = 0;
-          tieScoreElement = 0;
-        
+          tieScoreElement.textContent = 0;     
 };
-
 const nextRound = () => {
         reset();
-        startGame(mode);
-        
+        startGame(mode);      
 };
-
 const openRestartModal = () => {
   modalRestart.style.display = "inline";
 };
@@ -245,5 +238,83 @@ const restartF = () =>{
   oScoreText.textContent = 0;
   reset();
   startGame(mode);
+  modalRestart.style.display = "none";
 
 }; 
+
+
+
+function checkWin(player) {
+  for (let i = 0; i < winnerCombinations.length; i++) {
+    const [a, b, c] = winnerCombinations[i];
+    if (gameBoard[a] === player && gameBoard[b] === player && gameBoard[c] === player) {
+      return true;
+    }
+  }
+  return false;
+}
+function checkDraw() {
+  return !gameBoard.includes(' ');
+}
+
+function displayBoard() {
+  
+  playButtons.forEach((playButtons, index) => {
+    playButtons.textContent = gameBoard[index];
+  });
+}
+function playerTurn(position) {
+  if (gameBoard[position] === ' ') {
+    gameBoard[position] = playerSide;
+
+    if (checkWin(playerSide)) {
+      displayBoard();
+      alert('Congratulations! You won!');
+      resetGame();
+    } else if (checkDraw()) {
+      displayBoard();
+      alert('It\'s a draw!');
+      resetGame();
+    } else {
+      displayBoard();
+      cpuTurn();
+    }
+  } else {
+    alert('Invalid move. Try again.');
+  }
+}
+function cpuTurn() {
+  const availablePositions = [];
+
+  for (let i = 0; i < gameBoard.length; i++) {
+    if (gameBoard[i] === ' ') {
+      availablePositions.push(i);
+    }
+  }
+  const randomPosition = availablePositions[Math.floor(Math.random() * availablePositions.length)];
+  gameBoard[randomPosition] = cpuSide;
+
+  if (checkWin(cpuSide)) {
+    displayBoard();
+    alert('You lost! The computer won.');
+    resetGame();
+  } else if (checkDraw()) {
+    displayBoard();
+    alert('It\'s a draw!');
+    resetGame();
+  } else {
+    displayBoard();
+  }
+}
+function resetGame() {
+  for (let i = 0; i < gameBoard.length; i++) {
+    gameBoard[i] = ' ';
+  }
+  displayBoard();
+}
+
+resetGame();
+
+
+
+
