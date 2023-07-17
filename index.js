@@ -206,8 +206,7 @@ const clickFunction = () => {
                 event.target.append(icon);
                 /* ეს ნიშნავს დაკლიკვის დროს x არეაში ჩამატებას */
                 xArray.push(index);
-                /* chechxwin ჩავსვით const win ცვლადში რადგან consol.log ით 
-                შევძლოთ შემოწმება */
+      
                 const win =  checkXwin();
                 if(win){
                 onWinX();
