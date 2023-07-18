@@ -37,8 +37,8 @@ let turn = "x";
 let freeBtnBox = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 /* x da O არეა თავიდან გვაქვს ცარიელი, და როდესაც რამე უჯრაში ჩაწერ იქსს ან ნოლს ან
-ჯერ ერთს მერე მეორეს ცარიელ არეას მიენიჭება ის ინდექსი რომელზეც ყუთია ანუ მოკლედ რომელ ყუთებში არიან რა*/
-/* ასევე თითოეულ array ში ინახება ის უჯრები ის კომბინაციები რომელიც თითოეულმა შეავსო*/
+ჯერ ერთს მერე მეორეს ცარიელ ადგილს მიენიჭება ის ინდექსი რომელზეც ყუთია*/
+/* ანუ თითოეულ array ში ინახება ის უჯრები ის კომბინაციები რომელიც თითოეულმა შეავსო*/
 let xArray = [];
 let oArray = [];
 
@@ -61,10 +61,13 @@ let winnerCombinations = [
     [2, 4, 6],
 ];
 
+
+
+
 /* html ში გვაქვს  <button class="x-button" onclick="activateChoice('x')">
 ასევე  <button class="o-button active" onclick="activateChoice('o')">
 და ამ ფუნქციით ვირჩევთ ვინ  იქნება x და ვინ o
-icon ნიშნავს რომ პარამეტრად მიიღებს იმ x სს და o სს რომელიც htmlში ჩავუწერეთ */
+icon ნიშნავს რომ პარამეტრად მიიღებს იმ xსს და o სს რომელიც htmlში ჩავუწერეთ */
 const activateChoice = (icon) => {
     if (icon === "x"){
         choiceXorO[0].classList.add("active");
@@ -75,6 +78,7 @@ const activateChoice = (icon) => {
         choiceXorO[0].classList.remove("active");
         player1 = "o";
     }
+    
     console.log(player1);
 };
 
@@ -176,6 +180,8 @@ const clickFunction = () => {
   /* ამ ციკლით ცრიდან ერთ-ერთ ფლეი ბუთონზ შეგვიძლია დაკლიკება რადგან ყველა ცარიელია */
     for (let index = 0; index < playButtons.length; index++){
 
+      
+
 /* ეს კონკრეტული ორი ხაზი ახალ რაუნდში დაფას გვისუფთავებს*/
      playButtons[index].style.backgroundColor = "#1F3641";
      playButtons[index].innerHTML = "";
@@ -206,7 +212,8 @@ const clickFunction = () => {
                 event.target.append(icon);
                 /* ეს ნიშნავს დაკლიკვის დროს x არეაში ჩამატებას */
                 xArray.push(index);
-      
+                /* chechxwin ჩავსვით const win ცვლადში რადგან consol.log ით 
+                შევძლოთ შემოწმება */
                 const win =  checkXwin();
                 if(win){
                 onWinX();
@@ -271,16 +278,18 @@ const clickFunction = () => {
 გლობალური პარამეტრი*/
 const startGame = (Mode) => {
      gameMenu.style.display = "none";
-     gameStart.style.display ="flex"
+     gameStart.style.display ="flex";
      mode = Mode;
-    console.log(mode);
-
+     console.log(mode);
      onHoverEffects();
      clickFunction();
+     
+             
      /* ამ ლოგიკით შესაბამის მოთამაშეს ვანიჭებთ შესაბამის მოგებულ ქულას
      რომელიც იწერება დაფის ქვემოთ შესაბამის ადგილას*/
            if(Mode === "player") {
             if (player1 === "x") {
+              
               xScoreText.textContent = "X (P1)";
               oScoreText.textContent = "O (P2)";
             } else {
@@ -289,17 +298,22 @@ const startGame = (Mode) => {
             };
           } else {
             if (player1 === "o") {
+              
               xScoreText.textContent = "X (CPU)";
               oScoreText.textContent = "O (YOU)";
             } else {
+              
               xScoreText.textContent = "X (YOU)";
               oScoreText.textContent = "O (CPU)";
             };
+           
      };
+     
 };
-
-
 const reset = () => {
+          xScore.textContent = 0;
+          oScore.textContent = 0;
+          tieScoreElement.textContent = 0;   
           turn = "x";
           freeBtnBox = [0, 1, 2, 3, 4, 5, 6, 7, 8];
           xArray = [];
@@ -346,3 +360,6 @@ const restartF = () =>{
 
 }; 
 
+
+  
+  
