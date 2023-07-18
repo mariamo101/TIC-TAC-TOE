@@ -16,7 +16,7 @@ const modalInfoText = document.querySelector(".result-info-text");
 const modalIcon = document.querySelector(".icon-result img");
 const modalResultText = document.querySelector(".result-text");
 
-
+let board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 /* ფლეიერ ერთში ინახება დაჭერისას არჩეული ცვლადი ანუ მაგალითად x ხარ თუ o */
 let player1 = "x";
 
@@ -283,33 +283,35 @@ const startGame = (Mode) => {
      console.log(mode);
      onHoverEffects();
      clickFunction();
-     
-             
-     /* ამ ლოგიკით შესაბამის მოთამაშეს ვანიჭებთ შესაბამის მოგებულ ქულას
-     რომელიც იწერება დაფის ქვემოთ შესაბამის ადგილას*/
-           if(Mode === "player") {
-            if (player1 === "x") {
-              
-              xScoreText.textContent = "X (P1)";
-              oScoreText.textContent = "O (P2)";
-            } else {
-              xScoreText.textContent = "X (P2)";
-              oScoreText.textContent = "O (P1)";
-            };
-          } else {
-            if (player1 === "o") {
-              
-              xScoreText.textContent = "X (CPU)";
-              oScoreText.textContent = "O (YOU)";
-            } else {
-              
-              xScoreText.textContent = "X (YOU)";
-              oScoreText.textContent = "O (CPU)";
-            };
-           
-     };
+     if(Mode === "player") {
+     palyWithPlayer();
+     }
+     if(Mode === "cpu"){
+      palyWithCpu();
+     }
      
 };
+const palyWithPlayer = () =>{
+      if (player1 === "x") {
+        xScoreText.textContent = "X (P1)";
+        oScoreText.textContent = "O (P2)";
+      } else {
+        xScoreText.textContent = "X (P2)";
+        oScoreText.textContent = "O (P1)";
+      };
+};
+
+const palyWithCpu = () =>{
+  if (player1 === "o") {
+    xScoreText.textContent = "X (CPU)";
+    oScoreText.textContent = "O (YOU)";
+  } else{
+    xScoreText.textContent = "X (YOU)";
+    oScoreText.textContent = "O (CPU)";
+  }
+    
+};
+
 const reset = () => {
           xScore.textContent = 0;
           oScore.textContent = 0;
@@ -360,6 +362,3 @@ const restartF = () =>{
 
 }; 
 
-
-  
-  
