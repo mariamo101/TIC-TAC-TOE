@@ -148,9 +148,7 @@ const checkXwin = () => {
     modal.style.display = "inline";
     modalIcon.src ="./assets/icon-x.svg";
     modalResultText.style.color ="#31C3BD";
-    /*ეს თვლის ქულებს x ის მოგებისას*/
     Xscore++;
-    /* ამა გამოაქვს ეს ქულა და წერს დაფის ქვეშ ქვემოთ თვალსაჩინოებისთვის*/
     xScore.textContent = Xscore;
     console.log(xScore.textContent);
   
