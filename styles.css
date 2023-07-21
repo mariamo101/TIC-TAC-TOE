@@ -24,11 +24,12 @@ body {
  #game-menu,#game-board{
   display: flex;
   background-color: #1A2A33;
-  width: 23.4375rem;
-  height: 41.6875rem;
-  padding:  3rem 1.4rem 7.4375rem 1.4rem;
+  width: 20.4375rem;
+  height: 32.6875rem;
+  padding:  1rem 1.4rem 1rem 1.4rem;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
  }
  #icons{
   display: flex;
@@ -40,7 +41,6 @@ body {
  #icons img{
   height: 2rem;
  }
- 
  .bord{
   display: flex;
   flex-direction: column;
@@ -310,7 +310,7 @@ body {
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.15625rem;
-  padding: 1rem;
+  padding: 1rem 0 1rem 0;
 }
 .result-text{
   min-width: 16rem;
@@ -349,4 +349,30 @@ body {
 .next-round-btn{
   background: #F2B137;
   box-shadow: 0px -4px 0px 0px #CC8B13 inset;
+}
+@media screen and (max-width:325px) {
+  body,html{
+    min-width: 325px;
+  }
+}
+@media screen and (min-width:400px) {
+  #game-menu,#game-bord{
+    margin-top: 2rem;
+    
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+}
+
+@media screen and (min-width:1100px) {
+  #game-menu,#game-bord{
+    margin-top: 5rem;
+    
+    justify-content: center;
+    align-items: center;
+  }
+  
+
 }
