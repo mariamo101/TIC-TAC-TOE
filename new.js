@@ -1,3 +1,4 @@
+
 const gameBoard = document.querySelector("#game-board");
 const cpuBtn = document.querySelector("yellow-btn");
 const playerBtn = document.querySelector("blue-btn");
@@ -43,6 +44,7 @@ let winnerCombinations = [
     [0, 4, 8],
     [2, 4, 6],
 ];
+
 
 const startGame = (Mode) => {
     gameMenu.style.display = "none";
@@ -103,37 +105,49 @@ const onHoverEffects = () => {
     };      
 };
 const clickFunction = () => {
-      for (let index = 0; index < playButtons.length; index++){
-       playButtons[index].style.backgroundColor = "#1F3641";
-       playButtons[index].innerHTML = "";
-
-   playButtons[index].onclick  = (event) => {
-              event.target.classList.remove("xHover");
-              event.target.classList.remove("oHover");
-              const spliceIndex = freeBtnBox.indexOf(index);
-              freeBtnBox.splice(spliceIndex, 1);
-              const icon = document.createElement("img");
-              icon.classList.add("players-icon");
-              if( turn === "x"){
-                  icon.src = "./assets/icon-x.svg";
-                  event.target.append(icon);
-                  xArray.push(index);
-                  turn = "o";
-                  turnInfoImage.src="./assets/icon-o-small.svg";
-              }else{
-                  icon.src = "./assets/icon-o.svg";
-                  event.target.append(icon);
-                  oArray.push(index);
-                  turn = "x";
-                  turnInfoImage.src="./assets/icon-x-gray.svg";
-              };
-              checkWinner();
-              ifDeaw();
-              onHoverEffects();
-              event.target.onclick = null;
-         };
+    for (let index = 0; index < playButtons.length; index++) {
+      playButtons[index].style.backgroundColor = "#1F3641";
+      playButtons[index].innerHTML = "";
+  
+      playButtons[index].onclick = (event) => {
+        event.target.classList.remove("xHover");
+        event.target.classList.remove("oHover");
+        const spliceIndex = freeBtnBox.indexOf(index);
+        freeBtnBox.splice(spliceIndex, 1);
+        const icon = document.createElement("img");
+        icon.classList.add("players-icon");
+  
+        if (turn === "x") {
+          icon.src = "./assets/icon-x.svg";
+          event.target.append(icon);
+          xArray.push(index);
+          turn = "o";
+          turnInfoImage.src = "./assets/icon-o-small.svg";
+        } else {
+          icon.src = "./assets/icon-o.svg";
+          event.target.append(icon);
+          oArray.push(index);
+          turn = "x";
+          turnInfoImage.src = "./assets/icon-x-gray.svg";
+        }
+  
+        checkWinner();
+        ifDraw();
+        onHoverEffects();
+        event.target.onclick = null;
+  
+        // Computer's move
+        if (mode === "cpu" && turn === "o" && !isTerminalState()) {
+          const bestMove = getBestMove();
+          const cpuButton = playButtons[bestMove];
+          setTimeout(() => {
+            cpuButton.click();
+          }, 500); // Delay the computer's move for better UX
+        }
       };
+    }
   };
+  
 const checkXwin = () => {
     return winnerCombinations.find(combination => 
      combination.every(button => xArray.includes(button))
@@ -188,15 +202,15 @@ const checkWinner = () =>{
         return;
         };
        };
-
     };
-const ifDeaw = () =>{
-    if(xArray.length === 5){
-        modalTie.style.display = "inline";
-        tieScore++;
-        tieScoreElement.textContent = tieScore;
-       };
-};
+    const ifDraw = () => {
+        if (xArray.length + oArray.length === 9 && !checkXwin() && !checkOwin()) {
+          modalTie.style.display = "inline";
+          tieScore++;
+          tieScoreElement.textContent = tieScore;
+        }
+      };
+      
 const winningStyle = (array) =>{
     if( turn === "o"){
       playButtons[array[0]].style.backgroundColor = "#31C3BD";
@@ -264,3 +278,94 @@ reset();
 startGame(mode);
 modalRestart.style.display = "none";
 }; 
+
+
+
+// This function checks if the current state is a terminal state (win, lose, draw)
+// This function checks if the current state is a terminal state (win, lose, draw)
+const isTerminalState = () => {
+    // Check if X has won
+    checkXwin();
+    
+    // Check if O has won
+    checkOwin();
+  
+    // Check for a draw
+    const isDraw = freeBtnBox.length === 0 && !checkXwin() && !checkOwin();
+  
+    return checkXwin() || checkOwin() || isDraw;
+  };
+
+  
+  // This function evaluates the current state for the maximizing player (O)
+  const evaluate = () => {
+    // Assuming the computer is O and wants to maximize its score
+    if (player1 === "x") {
+      if (isTerminalState()) {
+        if (checkXwin()) return -10;
+        if (checkOwin()) return 10;
+        return 0; // Draw
+      }
+    } else {
+      if (isTerminalState()) {
+        if (checkXwin()) return 10;
+        if (checkOwin()) return -10;
+        return 0; // Draw
+      }
+    }
+  
+    return null; // The game is not over yet
+  };
+  
+  // The minimax function itself
+  const minimax = (depth, isMaximizing) => {
+    if (isTerminalState()) {
+      return evaluate();
+    }
+  
+    if (isMaximizing) {
+      let bestScore = -Infinity;
+      for (const index of freeBtnBox) {
+        if (!xArray.includes(index) && !oArray.includes(index)) {
+          // Simulate a move for O
+          oArray.push(index);
+          const currentScore = minimax(depth + 1, false);
+          bestScore = Math.max(bestScore, currentScore);
+          oArray.pop(); // Undo the move
+        }
+      }
+      return bestScore;
+    } else {
+      let bestScore = Infinity;
+      for (const index of freeBtnBox) {
+        if (!xArray.includes(index) && !oArray.includes(index)) {
+          // Simulate a move for X
+          xArray.push(index);
+          const currentScore = minimax(depth + 1, true);
+          bestScore = Math.min(bestScore, currentScore);
+          xArray.pop(); // Undo the move
+        }
+      }
+      return bestScore;
+    }
+  };
+  
+  
+  // This function returns the best move for the computer
+  const getBestMove = () => {
+    let bestMove;
+    let bestScore = -Infinity;
+    for (const index of freeBtnBox) {
+      // Simulate a move for O
+      oArray.push(index);
+      const score = minimax(0, false);
+      oArray.pop(); // Undo the move
+  
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = index;
+      }
+    }
+    return bestMove;
+  };
+  

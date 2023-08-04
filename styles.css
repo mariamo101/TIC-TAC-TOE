@@ -105,7 +105,7 @@ body {
   display: flex;
   flex-direction: column;
  }
- .yellow-btn{
+ #yellow-btn{
   width: 20.4375rem;
   height: 3.5rem;
   border-radius: 0.9375rem;
@@ -123,7 +123,7 @@ body {
   line-height: normal;
   letter-spacing: 0.0625rem;
  }
- .blue-btn{
+ #blue-btn{
   border:none;
   width: 20.4375rem;
   height: 3.5rem;
@@ -244,10 +244,10 @@ body {
 .x-button:hover,.o-button:hover{
   background-color: #1F3641;
 }
-.yellow-btn:hover{
+#yellow-btn:hover{
   background-color: #FFC860;
 }
-.blue-btn:hover{
+#blue-btn:hover{
   background-color: #65E9E4;
 }
 .xHover:hover{

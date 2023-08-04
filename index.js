@@ -1,4 +1,6 @@
 const gameBoard = document.querySelector("#game-board");
+const cpuBtn = document.querySelector("yellow-btn");
+const playerBtn = document.querySelector("blue-btn");
 const playButtons = document.querySelectorAll(".play-btn");
 const choiceXorO = document.querySelectorAll(".x-button,.o-button");
 const gameMenu = document.querySelector("#game-menu");
@@ -212,8 +214,7 @@ const clickFunction = () => {
                 event.target.append(icon);
                 /* ეს ნიშნავს დაკლიკვის დროს x არეაში ჩამატებას */
                 xArray.push(index);
-                /* chechxwin ჩავსვით const win ცვლადში რადგან consol.log ით 
-                შევძლოთ შემოწმება */
+                
                 const win =  checkXwin();
                 if(win){
                 onWinX();
@@ -309,7 +310,6 @@ const palyWithCpu = () =>{
     xScoreText.textContent = "X (YOU)";
     oScoreText.textContent = "O (CPU)";
   }
-    
 };
 
 const reset = () => {
@@ -362,3 +362,38 @@ const restartF = () =>{
 
 }; 
 
+const winnerX = false;
+const winnerO = false;
+
+
+async function cpuTurn() {
+    if (choiceXorO === turn) {
+      const promise = new Promise((resolve, reject) => {
+        if (turn === "o") {
+            playButtons.setAttribute("onclick", "");
+          resolve();
+        }
+        if (winnerX === true) {
+          reject();
+        }
+      });
+      await promise;
+  
+      setTimeout(cpuPlay, 3000);
+      cpuThink();
+    }else if(choiceXorO === turn){
+        const promise = new Promise((resolve) => {
+            if (turn === "x") {
+                playButtons.setAttribute("onclick", "");
+                resolve();
+              }
+              if (winnerO === true) {
+                reject();
+              }
+            });
+            await promise;
+            setTimeout(cpuPlay, 2500);
+            cpuThink();
+          }
+        };
+    
