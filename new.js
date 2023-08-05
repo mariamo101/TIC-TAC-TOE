@@ -130,20 +130,15 @@ const clickFunction = () => {
           turn = "x";
           turnInfoImage.src = "./assets/icon-x-gray.svg";
         }
-  
+      
+        makeComputerMove();
         checkWinner();
         ifDraw();
         onHoverEffects();
         event.target.onclick = null;
-  
-        // Computer's move
-        if (mode === "cpu" && turn === "o" && !isTerminalState()) {
-          const bestMove = getBestMove();
-          const cpuButton = playButtons[bestMove];
-          setTimeout(() => {
-            cpuButton.click();
-          }, 500); // Delay the computer's move for better UX
-        }
+
+
+        
       };
     }
   };
@@ -299,73 +294,75 @@ const isTerminalState = () => {
   
   // This function evaluates the current state for the maximizing player (O)
   const evaluate = () => {
-    // Assuming the computer is O and wants to maximize its score
-    if (player1 === "x") {
-      if (isTerminalState()) {
-        if (checkXwin()) return -10;
-        if (checkOwin()) return 10;
-        return 0; // Draw
-      }
-    } else {
-      if (isTerminalState()) {
-        if (checkXwin()) return 10;
-        if (checkOwin()) return -10;
-        return 0; // Draw
-      }
-    }
+    if (checkXwin()) return -10;
+    if (checkOwin()) return 10;
+    return 0; // Draw or undecided
+};
+
   
-    return null; // The game is not over yet
-  };
-  
-  // The minimax function itself
-  const minimax = (depth, isMaximizing) => {
-    if (isTerminalState()) {
-      return evaluate();
-    }
-  
-    if (isMaximizing) {
-      let bestScore = -Infinity;
-      for (const index of freeBtnBox) {
+  const minimax = (depth, isMaximizing, alpha, beta) => {
+    if (isTerminalState() || depth >= 1) {
+        const score = evaluate();
+        return isMaximizing ? score - depth : score + depth;
+    }    
+
+    let bestScore = isMaximizing ? -Infinity : Infinity;
+
+    for (const index of freeBtnBox) {
         if (!xArray.includes(index) && !oArray.includes(index)) {
-          // Simulate a move for O
-          oArray.push(index);
-          const currentScore = minimax(depth + 1, false);
-          bestScore = Math.max(bestScore, currentScore);
-          oArray.pop(); // Undo the move
+            const currentPlayer = isMaximizing ? "o" : "x";
+            currentPlayer === "o" ? oArray.push(index) : xArray.push(index);
+
+            const currentScore = minimax(depth + 1, !isMaximizing, alpha, beta);
+
+            if (isMaximizing) {
+                bestScore = Math.max(bestScore, currentScore);
+                alpha = Math.max(alpha, bestScore);
+            } else {
+                bestScore = Math.min(bestScore, currentScore);
+                beta = Math.min(beta, bestScore);
+            }
+
+            currentPlayer === "o" ? oArray.pop() : xArray.pop();
+
+            // Alpha-beta pruning
+            if (beta <= alpha) {
+                break;
+            }
         }
-      }
-      return bestScore;
-    } else {
-      let bestScore = Infinity;
-      for (const index of freeBtnBox) {
-        if (!xArray.includes(index) && !oArray.includes(index)) {
-          // Simulate a move for X
-          xArray.push(index);
-          const currentScore = minimax(depth + 1, true);
-          bestScore = Math.min(bestScore, currentScore);
-          xArray.pop(); // Undo the move
-        }
-      }
-      return bestScore;
     }
-  };
-  
-  
-  // This function returns the best move for the computer
-  const getBestMove = () => {
+
+    return bestScore;
+};
+
+const getBestMove = () => {
     let bestMove;
     let bestScore = -Infinity;
+    const alpha = -Infinity;
+    const beta = Infinity;
+
     for (const index of freeBtnBox) {
-      // Simulate a move for O
-      oArray.push(index);
-      const score = minimax(0, false);
-      oArray.pop(); // Undo the move
-  
-      if (score > bestScore) {
-        bestScore = score;
-        bestMove = index;
-      }
+        if (!xArray.includes(index) && !oArray.includes(index)) {
+            oArray.push(index);
+            const score = minimax(0, false, alpha, beta);
+            oArray.pop();
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = index;
+            }
+        }
     }
+
     return bestMove;
-  };
-  
+};
+
+const makeComputerMove = () => {
+    if (mode === "cpu" && turn === "o" && !isTerminalState()) {
+        const bestMove = getBestMove();
+        const cpuButton = playButtons[bestMove];
+        setTimeout(() => {
+            cpuButton.click();
+        }, 500); // Delay the computer's move for better UX
+    }
+};
