@@ -24,7 +24,7 @@ body {
  #game-menu,#game-board{
   display: flex;
   background-color: #1A2A33;
-  width: 20.4375rem;
+  /*width: 20.4375rem;*/
   height: 32.6875rem;
   padding:  1rem 1.4rem 1rem 1.4rem;
   flex-direction: column;
@@ -33,12 +33,13 @@ body {
  }
  #icons{
   display: flex;
-  justify-content: space-between;
-  width: 4.49813rem;
+  align-items: center;
+  justify-content: center;
   height: 2rem;
   margin-bottom: 2rem;
  }
  #icons img{
+  padding: 0.2rem;
   height: 2rem;
  }
  .bord{
@@ -278,7 +279,7 @@ body {
   z-index: 100;
 }
 .modal-box{
-  padding: 2.5rem 2.94rem 3rem 3rem;
+  padding: 2.5rem 0rem 0rem 1rem;
 }
 .icon-result{
    display: flex;

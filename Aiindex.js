@@ -1,86 +1,116 @@
-// Minimax algorithm for Tic-Tac-Toe
-const minimax = (board, depth, isMaximizing) => {
-    const scores = {
-      x: 10,
-      o: -10,
-      tie: 0,
-    };
-  
-    const winner = checkWinner();
-    if (winner !== null) {
-      return scores[winner];
+
+const gameBoard = document.querySelector("#game-board");
+const cpuBtn = document.querySelector("yellow-btn");
+const playerBtn = document.querySelector("blue-btn");
+const playButtons = document.querySelectorAll(".play-btn");
+const choiceXorO = document.querySelectorAll(".x-button,.o-button");
+const choiceX = document.querySelector(".x-button");
+const choiceO = document.querySelector(".o-button");
+const gameMenu = document.querySelector("#game-menu");
+const gameStart = document.querySelector("#start-game");
+const xScoreText = document.querySelector("#x-score-text");
+const oScoreText = document.querySelector("#o-score-text");
+const xScore = document.querySelector("#x-score");
+const oScore = document.querySelector("#o-score");
+const tieScoreElement = document.querySelector("#tie-score");
+const turnInfoImage = document.querySelector("#turn-box img");
+const modal = document.querySelector("#modal");
+const modalTie = document.querySelector("#modal-tie");
+const modalRestart = document.querySelector("#modal-restart");
+const modalInfoText = document.querySelector(".result-info-text");
+const modalIcon = document.querySelector(".icon-result img");
+const modalResultText = document.querySelector(".result-text");
+
+
+let freeBtnBox = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+let player1 = "x";
+let mode = "cpu";
+let turn = "x";
+let xArray = [];
+let oArray = [];
+let Xscore = 0;
+let tieScore = 0;
+let Oscore = 0;
+
+
+
+let winnerCombinations = [
+    [0, 1 ,2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+];
+
+
+const startGame = (Mode) => {
+    gameMenu.style.display = "none";
+    gameStart.style.display = "flex";
+    mode = Mode;
+    console.log(mode);
+    if (Mode === "player") {
+        playWithPlayer();
     }
-  
-    if (isMaximizing) {
-      let bestScore = -Infinity;
-      for (let i = 0; i < 9; i++) {
-        if (board[i] === "") {
-          board[i] = "x";
-          const score = minimax(board, depth + 1, false);
-          board[i] = "";
-          bestScore = Math.max(bestScore, score);
+    if (Mode === "cpu") {
+        playWithCpu();
+        if (player1 === "o") {
+            const bestMove = getBestMove();
+            const cpuButton = playButtons[bestMove];
+            setTimeout(() => {
+                cpuButton.click();
+            }, 500); // Delay the computer's move for better UX
         }
-      }
-      return bestScore;
-    } else {
-      let bestScore = Infinity;
-      for (let i = 0; i < 9; i++) {
-        if (board[i] === "") {
-          board[i] = "o";
-          const score = minimax(board, depth + 1, true);
-          board[i] = "";
-          bestScore = Math.min(bestScore, score);
-        }
-      }
-      return bestScore;
     }
-  };
-  
-  // Function to find the best move for CPU using minimax
-  const findBestMove = () => {
-    let bestScore = -Infinity;
-    let bestMove;
-  
-    for (let i = 0; i < 9; i++) {
-      if (freeBtnBox.includes(i)) {
-        gameBoard.innerHTML = gameBoard.innerHTML.slice(0, -12);
-        gameBoard.innerHTML += "<div class='play-btn xHover'></div>";
-        const newBoard = Array.from(freeBtnBox);
-        newBoard.splice(newBoard.indexOf(i), 1);
-        newBoard.push(i);
-        const moveScore = minimax(newBoard, 0, false);
-        if (moveScore > bestScore) {
-          bestScore = moveScore;
-          bestMove = i;
-        }
-      }
-    }
-  
-    return bestMove;
-  };
-  
-  // CPU plays its turn
-  const cpuPlay = () => {
-    const bestMove = findBestMove();
-    const btn = playButtons[bestMove];
-    btn.classList.remove("xHover");
-    btn.classList.remove("oHover");
-    const icon = document.createElement("img");
-    icon.classList.add("players-icon");
-    icon.src = "./assets/icon-x.svg";
-    btn.append(icon);
-    const spliceIndex = freeBtnBox.indexOf(bestMove);
-    freeBtnBox.splice(spliceIndex, 1);
-    xArray.push(bestMove);
-    turn = "o";
-    turnInfoImage.src = "./assets/icon-o-small.svg";
-    checkWiner();
-    ifDeaw();
     onHoverEffects();
-  };
-  
-  // Update your clickFunction to handle the player's move
-  const clickFunction = () => {
+    clickFunction();
+};
+
+const activateChoice = (icon) => {
+    if (icon === "x"){
+        choiceXorO[0].classList.add("active");
+        choiceXorO[1].classList.remove("active");
+        player1 = "x";
+    }else{
+        choiceXorO[1].classList.add("active");
+        choiceXorO[0].classList.remove("active");
+        player1 = "o";
+    }
+    console.log(player1);
+};
+const playWithPlayer = () =>{
+    if (player1 === "x") {
+      xScoreText.textContent = "X (P1)";
+      oScoreText.textContent = "O (P2)";
+    } else {
+      xScoreText.textContent = "X (P2)";
+      oScoreText.textContent = "O (P1)";
+    };
+};
+const playWithCpu = () =>{
+if (player1 === "o") {
+  xScoreText.textContent = "X (CPU)";
+  oScoreText.textContent = "O (YOU)";
+} else{
+  xScoreText.textContent = "X (YOU)";
+  oScoreText.textContent = "O (CPU)";
+}
+};
+const onHoverEffects = () => {
+    for (let index = 0; index < freeBtnBox.length; index++) {
+        const playButtonsIndex =  freeBtnBox[index];
+        if( turn === "x"){
+        playButtons[playButtonsIndex].classList.add("xHover");
+        playButtons[playButtonsIndex].classList.remove("oHover");
+        }else{
+            playButtons[playButtonsIndex].classList.add("oHover");
+            playButtons[playButtonsIndex].classList.remove("xHover");
+        };
+    };      
+};
+const clickFunction = () => {
     for (let index = 0; index < playButtons.length; index++) {
       playButtons[index].style.backgroundColor = "#1F3641";
       playButtons[index].innerHTML = "";
@@ -92,6 +122,7 @@ const minimax = (board, depth, isMaximizing) => {
         freeBtnBox.splice(spliceIndex, 1);
         const icon = document.createElement("img");
         icon.classList.add("players-icon");
+  
         if (turn === "x") {
           icon.src = "./assets/icon-x.svg";
           event.target.append(icon);
@@ -105,151 +136,239 @@ const minimax = (board, depth, isMaximizing) => {
           turn = "x";
           turnInfoImage.src = "./assets/icon-x-gray.svg";
         }
-        checkWiner();
-        ifDeaw();
+      
+        makeComputerMove();
+        checkWinner();
+        ifDraw();
         onHoverEffects();
         event.target.onclick = null;
-  
-        if (mode === "cpu" && turn === "o" && freeBtnBox.length > 0) {
-          setTimeout(() => {
-            cpuPlay();
-          }, 500);
-        }
+
+
+        
       };
     }
   };
   
-  // Add a checkWinner function (assuming you don't have it already)
-  const checkWinner = () => {
-    const checkWin = (array) => {
-      return winnerCombinations.some((combination) =>
-        combination.every((button) => array.includes(button))
-      );
-    };
-  
-    if (checkWin(xArray)) {
-      return "x";
-    } else if (checkWin(oArray)) {
-      return "o";
-    } else if (freeBtnBox.length === 0) {
-      return "tie";
-    } else {
-      return null;
-    }
+const checkXwin = () => {
+    return winnerCombinations.find(combination => 
+     combination.every(button => xArray.includes(button))
+    );
   };
+ const checkOwin = () => {
+    return winnerCombinations.find(combination => 
+     combination.every(button => oArray.includes(button))
+    );
+  };
+ const ifWinX = () => {
+    modal.style.display = "inline";
+    modalIcon.src ="./assets/icon-x.svg";
+    modalResultText.style.color ="#31C3BD";
+    Xscore++;
+    xScore.textContent = Xscore;
+    console.log(xScore.textContent);
   
-  // Call the startGame function as usual to start the game
+    if(player1 === "x"){
+      modalInfoText.textContent = "you won!";
+    }else{
+      modalInfoText.textContent = modalResultText.textContent;
+    };
+  }; 
+ const ifWinO = () => { 
+    modal.style.display = "inline";
+    modalIcon.src ="./assets/icon-o.svg";
+    modalResultText.style.color ="#F2B137";
+    Oscore++;
+    oScore.textContent = Oscore;
   
+    if(player1 !== "x"){
+      modalInfoText.textContent = "you won!";
+    }else{
+      modalInfoText.textContent = modalInfoText.textContent;
+    };
+  };
+const checkWinner = () =>{
+    const winnerX = checkXwin();
+  if( winnerX === checkXwin()){
+    if(winnerX){
+    ifWinX();
+    winningStyle(winnerX);
+    return;
+};
+  }
+ const winnerO = checkOwin();
+  if( winnerO === checkOwin()){
+        if(winnerO){
+        ifWinO();
+        winningStyle(winnerO);
+        return;
+        };
+       };
+    };
+    const ifDraw = () => {
+        if (xArray.length + oArray.length === 9 && !checkXwin() && !checkOwin()) {
+          modalTie.style.display = "inline";
+          tieScore++;
+          tieScoreElement.textContent = tieScore;
+        }
+      };
+      
+const winningStyle = (array) =>{
+    if( turn === "o"){
+      playButtons[array[0]].style.backgroundColor = "#31C3BD";
+      playButtons[array[1]].style.backgroundColor = "#31C3BD";
+      playButtons[array[2]].style.backgroundColor = "#31C3BD";   
+      playButtons[array[0]].firstElementChild.src ="./assets/icon-x-dark-gray.svg";
+      playButtons[array[1]].firstElementChild.src ="./assets/icon-x-dark-gray.svg";
+      playButtons[array[2]].firstElementChild.src ="./assets/icon-x-dark-gray.svg";
+   
+    } 
+    if( turn === "x"){
+      playButtons[array[0]].style.backgroundColor = "#F2B137";
+      playButtons[array[1]].style.backgroundColor = "#F2B137";
+      playButtons[array[2]].style.backgroundColor = "#F2B137"; 
+      playButtons[array[0]].firstElementChild.src ="./assets/icon-o-dark-gray.svg";
+      playButtons[array[1]].firstElementChild.src ="./assets/icon-o-dark-gray.svg";
+      playButtons[array[2]].firstElementChild.src ="./assets/icon-o-dark-gray.svg";
+   }
+};
+const reset = () => {
+    xScore.textContent = 0;
+    oScore.textContent = 0;
+    tieScoreElement.textContent = 0;   
+    turn = "x";
+    freeBtnBox = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    xArray = [];
+    oArray = [];
+    modal.style.display = "none";
+    modalTie.style.display = "none";     
+};
+const quit = () => {
+    reset();
+    Xscore = 0;
+    tieScore = 0;
+    Oscore = 0;
+    gameStart.style.display = "none";
+    gameMenu.style.display = "inline";
+    xScore.textContent = 0;
+    oScore.textContent = 0;
+    tieScoreElement.textContent = 0;     
+};
+const nextRound = () => {
+  turn = "x";
+  freeBtnBox = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  xArray = [];
+  oArray = [];
+  modal.style.display = "none";
+  modalTie.style.display = "none";    
+  startGame(mode);      
+};
+const openRestartModal = () => {
+modalRestart.style.display = "inline";
+};
+const Close = () =>{
+modalRestart.style.display = "none";
+};
+const restartF = () =>{
+modalRestart.style.display = "none";
+Xscore = 0;
+tieScore = 0;
+Oscore = 0;
+xScoreText.textContent = 0;
+oScoreText.textContent = 0;
+reset();
+startGame(mode);
+modalRestart.style.display = "none";
+}; 
 
 
 
-
-
-  // This function checks if the current state is a terminal state (win, lose, draw)
+// This function checks if the current state is a terminal state (win, lose, draw)
+// This function checks if the current state is a terminal state (win, lose, draw)
 const isTerminalState = () => {
-  // Check if X has won
-  const xWin = winnerCombinations.some(combination =>
-    combination.every(button => xArray.includes(button))
-  );
+    // Check if X has won
+    checkXwin();
+    
+    // Check if O has won
+    checkOwin();
+  
+    // Check for a draw
+    const isDraw = freeBtnBox.length === 0 && !checkXwin() && !checkOwin();
+  
+    return checkXwin() || checkOwin() || isDraw;
+  };
 
-  // Check if O has won
-  const oWin = winnerCombinations.some(combination =>
-    combination.every(button => oArray.includes(button))
-  );
-
-  // Check for a draw
-  const isDraw = freeBtnBox.length === 0 && !xWin && !oWin;
-
-  return xWin || oWin || isDraw;
+  
+  // This function evaluates the current state for the maximizing player (O)
+  const evaluate = () => {
+    if (checkXwin()) return -10;
+    if (checkOwin()) return 10;
+    return 0; // Draw or undecided
 };
 
-// This function evaluates the current state for the maximizing player (O)
-const evaluate = () => {
-  // Assuming the computer is O and wants to maximize its score
-  if (player1 === "x") {
-    if (isTerminalState()) {
-      if (xWin) return -10;
-      if (oWin) return 10;
-      return 0; // Draw
-    }
-  } else {
-    if (isTerminalState()) {
-      if (xWin) return 10;
-      if (oWin) return -10;
-      return 0; // Draw
-    }
-  }
+  
+  const minimax = (depth, isMaximizing, alpha, beta) => {
+    if (isTerminalState() || depth >= 1) {
+        const score = evaluate();
+        return isMaximizing ? score - depth : score + depth;
+    }    
 
-  return null; // The game is not over yet
-};
+    let bestScore = isMaximizing ? -Infinity : Infinity;
 
-// The minimax function itself
-const minimax = (depth, isMaximizing) => {
-  const score = evaluate();
-
-  if (score !== null) {
-    return score;
-  }
-
-  if (isMaximizing) {
-    let bestScore = -Infinity;
     for (const index of freeBtnBox) {
-      // Simulate a move for O
-      oArray.push(index);
-      const currentScore = minimax(depth + 1, false);
-      bestScore = Math.max(bestScore, currentScore);
-      oArray.pop(); // Undo the move
+        if (!xArray.includes(index) && !oArray.includes(index)) {
+            const currentPlayer = isMaximizing ? "o" : "x";
+            currentPlayer === "o" ? oArray.push(index) : xArray.push(index);
+
+            const currentScore = minimax(depth + 1, !isMaximizing, alpha, beta);
+
+            if (isMaximizing) {
+                bestScore = Math.max(bestScore, currentScore);
+                alpha = Math.max(alpha, bestScore);
+            } else {
+                bestScore = Math.min(bestScore, currentScore);
+                beta = Math.min(beta, bestScore);
+            }
+
+            currentPlayer === "o" ? oArray.pop() : xArray.pop();
+
+            // Alpha-beta pruning
+            if (beta <= alpha) {
+                break;
+            }
+        }
     }
+
     return bestScore;
-  } else {
-    let bestScore = Infinity;
-    for (const index of freeBtnBox) {
-      // Simulate a move for X
-      xArray.push(index);
-      const currentScore = minimax(depth + 1, true);
-      bestScore = Math.min(bestScore, currentScore);
-      xArray.pop(); // Undo the move
-    }
-    return bestScore;
-  }
 };
 
-// This function returns the best move for the computer
 const getBestMove = () => {
-  let bestMove;
-  let bestScore = -Infinity;
-  for (const index of freeBtnBox) {
-    // Simulate a move for O
-    oArray.push(index);
-    const score = minimax(0, false);
-    oArray.pop(); // Undo the move
+    let bestMove;
+    let bestScore = -Infinity;
+    const alpha = -Infinity;
+    const beta = Infinity;
 
-    if (score > bestScore) {
-      bestScore = score;
-      bestMove = index;
+    for (const index of freeBtnBox) {
+        if (!xArray.includes(index) && !oArray.includes(index)) {
+            oArray.push(index);
+            const score = minimax(0, false, alpha, beta);
+            oArray.pop();
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = index;
+            }
+        }
     }
-  }
-  return bestMove;
+
+    return bestMove;
 };
 
-// Modify your clickFunction to call the getBestMove function for the computer's turn
-const clickFunction = () => {
-  for (let index = 0; index < playButtons.length; index++) {
-    // ...
-
-    playButtons[index].onclick = (event) => {
-      // ...
-      
-      // Player's move
-      // ...
-      
-      // Computer's move
-      if (mode === "cpu" && turn === "o") {
+const makeComputerMove = () => {
+    if (mode === "cpu" && turn === "o" && !isTerminalState()) {
         const bestMove = getBestMove();
         const cpuButton = playButtons[bestMove];
-        // Simulate a click on the best move for the computer
-        cpuButton.click();
-      }
-    };
-  }
+        setTimeout(() => {
+            cpuButton.click();
+        }, 500); // Delay the computer's move for better UX
+    }
 };
